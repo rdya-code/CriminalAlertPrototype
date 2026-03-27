@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@drawable/bg_card"
+    android:layout_margin="8dp">
+
+    <ImageView
+        android:id="@+id/setting_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="Silent mode indicator"
+        android:src="@drawable/ic_silent_custom" />
+
+    <TextView
+        android:id="@+id/setting_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/setting_icon"
+        android:layout_marginStart="16dp"
+        android:text="Stealth Alert Mode"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/setting_label"
+        android:layout_toEndOf="@id/setting_icon"
+        android:layout_marginStart="16dp"
+        android:text="Vibrate only for high-priority alerts"
+        android:textSize="12sp" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:checked="true"
+        android:contentDescription="Toggle stealth mode" />
+</RelativeLayout>

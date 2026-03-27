@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit New Report"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Category"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:alignmentMode="alignMargins"
+            android:columnOrderPreserved="false">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="2"
+                android:text="EMERGENCY: CALL 911"
+                android:backgroundTint="@color/alert_red"
+                android:textColor="@color/white"
+                android:layout_margin="4dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Theft"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_margin="4dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vandalism"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_margin="4dp"/>
+        </GridLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Urgency Level"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"/>
+
+        <RadioGroup
+            android:id="@+id/urgencyGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_card"
+            android:padding="8dp">
+
+            <RadioButton
+                android:id="@+id/radioLow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Low"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/radioMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medium"
+                android:layout_marginStart="16dp"/>
+
+            <RadioButton
+                android:id="@+id/radioHigh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="High"
+                android:layout_marginStart="16dp"/>
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Incident Tags"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card"
+            android:padding="12dp">
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flowTags"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:flow_wrapMode="aligned"
+                app:flow_horizontalGap="8dp"
+                app:flow_verticalGap="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:constraint_referenced_ids="tag1,tag2,tag3,tag4,tag5" />
+
+            <TextView android:id="@+id/tag1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#Armed" android:background="@color/stroke_color" android:padding="8dp"/>
+            <TextView android:id="@+id/tag2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#NightTime" android:background="@color/stroke_color" android:padding="8dp"/>
+            <TextView android:id="@+id/tag3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#Witnessed" android:background="@color/stroke_color" android:padding="8dp"/>
+            <TextView android:id="@+id/tag4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#Residential" android:background="@color/stroke_color" android:padding="8dp"/>
+            <TextView android:id="@+id/tag5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#VehicleInvolved" android:background="@color/stroke_color" android:padding="8dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</ScrollView>
