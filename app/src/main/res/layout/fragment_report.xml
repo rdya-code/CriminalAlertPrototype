@@ -35,6 +35,7 @@
             android:columnOrderPreserved="false">
 
             <Button
+                android:id="@+id/btn_emergency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_columnSpan="2"
@@ -44,6 +45,7 @@
                 android:layout_margin="4dp"/>
 
             <Button
+                android:id="@+id/btn_theft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Theft"
@@ -51,9 +53,26 @@
                 android:layout_margin="4dp"/>
 
             <Button
+                android:id="@+id/btn_vandalism"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vandalism"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_margin="4dp"/>
+
+            <Button
+                android:id="@+id/btn_fire"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fire"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_margin="4dp"/>
+
+            <Button
+                android:id="@+id/btn_suspicious"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Suspicious"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_margin="4dp"/>
         </GridLayout>
@@ -122,13 +141,34 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:constraint_referenced_ids="tag1,tag2,tag3,tag4,tag5" />
 
-            <TextView android:id="@+id/tag1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#Armed" android:background="@color/stroke_color" android:padding="8dp"/>
-            <TextView android:id="@+id/tag2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#NightTime" android:background="@color/stroke_color" android:padding="8dp"/>
-            <TextView android:id="@+id/tag3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#Witnessed" android:background="@color/stroke_color" android:padding="8dp"/>
-            <TextView android:id="@+id/tag4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#Residential" android:background="@color/stroke_color" android:padding="8dp"/>
-            <TextView android:id="@+id/tag5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#VehicleInvolved" android:background="@color/stroke_color" android:padding="8dp"/>
+            <TextView android:id="@+id/tag1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#Armed" android:background="@color/stroke_color" android:padding="8dp" android:textColor="@color/text_primary"/>
+            <TextView android:id="@+id/tag2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#NightTime" android:background="@color/stroke_color" android:padding="8dp" android:textColor="@color/text_primary"/>
+            <TextView android:id="@+id/tag3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#Witnessed" android:background="@color/stroke_color" android:padding="8dp" android:textColor="@color/text_primary"/>
+            <TextView android:id="@+id/tag4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#Residential" android:background="@color/stroke_color" android:padding="8dp" android:textColor="@color/text_primary"/>
+            <TextView android:id="@+id/tag5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#VehicleInvolved" android:background="@color/stroke_color" android:padding="8dp" android:textColor="@color/text_primary"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <EditText
+            android:id="@+id/et_description"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:hint="Describe the incident in detail..."
+            android:gravity="top"
+            android:padding="12dp"
+            android:background="@drawable/bg_card"
+            android:inputType="textMultiLine"/>
+
+        <Button
+            android:id="@+id/btn_submit_report"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/safety_blue"
+            android:text="Submit Report"
+            android:textColor="@color/white"/>
 
     </LinearLayout>
 </ScrollView>

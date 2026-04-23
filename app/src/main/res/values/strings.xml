@@ -1,3 +1,60 @@
 <resources>
-    <string name="app_name">CriminalAlertPrototype</string>
+    <string name="app_name">Criminal Alert System</string>
+
+    <!-- Activity Titles -->
+    <string name="incident_history">Incident History</string>
+    <string name="community_log">Community Log</string>
+    <string name="safety_dashboard">Safety Dashboard</string>
+    <string name="submit_report">Submit New Report</string>
+    <string name="settings">Settings</string>
+    <string name="notification_center">Notification Center</string>
+    <string name="community_discussion">Community Discussion</string>
+
+    <!-- Table Headers -->
+    <string name="date">Date</string>
+    <string name="type">Type</string>
+    <string name="description">Description</string>
+
+    <!-- Alert Types -->
+    <string name="theft">Theft</string>
+    <string name="suspicious">Suspicious</string>
+    <string name="fire">Fire</string>
+    <string name="vandalism">Vandalism</string>
+
+    <!-- Urgency Levels -->
+    <string name="low">Low</string>
+    <string name="medium">Medium</string>
+    <string name="high">High</string>
+
+    <!-- Buttons -->
+    <string name="login">Login</string>
+    <string name="submit">Submit Report</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="emergency_call">EMERGENCY: CALL 911</string>
+
+    <!-- Labels -->
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="demo_hint">Demo: any username/password</string>
+    <string name="notification_alerts">Notification Alerts</string>
+    <string name="recent_evidence">Recent Evidence</string>
+    <string name="live_alert_feed">Live Alert Feed</string>
+    <string name="quick_settings">Quick Settings</string>
+    <string name="stealth_alert_mode">Stealth Alert Mode</string>
+    <string name="stealth_description">Vibrate only for high-priority alerts</string>
+    <string name="active_alerts">Active Alerts</string>
+    <string name="your_zone">Your Zone</string>
+    <string name="patrols">Patrols</string>
+    <string name="search_hint">🔍 Search alerts by title, type, or location...</string>
+    <string name="recent_incidents">Recent Incidents</string>
+    <string name="select_category">Select Category</string>
+    <string name="urgency_level">Urgency Level</string>
+    <string name="incident_tags">Incident Tags</string>
+    <string name="describe_incident">Describe the incident in detail...</string>
+    <string name="notification_preferences">Notification Preferences</string>
+    <string name="all_alerts">All Alerts</string>
+    <string name="high_priority_only">High Priority Only</string>
+    <string name="none">None</string>
+    <string name="safe">Safe</string>
 </resources>

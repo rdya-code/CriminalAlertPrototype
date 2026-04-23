@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/safety_blue"
-            app:title="Incident History"
+            app:title="@string/incident_history"
             app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -38,24 +38,25 @@
                 android:layout_margin="16dp">
 
                 <ImageView
-                    android:contentDescription="Notification Alerts"
                     android:id="@+id/img_bell"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_notification_bell"
+                    android:contentDescription="@string/notification_alerts"
                     app:tint="@color/black" />
+                    
                 <View
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="top|end"
-                android:background="@android:color/holo_red_dark" />
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="top|end"
+                    android:background="#F44336" />
 
             </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Community Log"
+                android:text="@string/community_log"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_primary"
@@ -69,14 +70,14 @@
                 android:padding="8dp">
 
                 <TableRow android:background="@color/stroke_color" android:padding="8dp">
-                    <TextView android:text="Date" android:textStyle="bold" android:padding="4dp"/>
-                    <TextView android:text="Type" android:textStyle="bold" android:padding="4dp"/>
-                    <TextView android:text="Description" android:textStyle="bold" android:padding="4dp"/>
+                    <TextView android:text="@string/date" android:textStyle="bold" android:padding="4dp"/>
+                    <TextView android:text="@string/type" android:textStyle="bold" android:padding="4dp"/>
+                    <TextView android:text="@string/description" android:textStyle="bold" android:padding="4dp"/>
                 </TableRow>
 
                 <TableRow android:padding="8dp">
                     <TextView android:text="Oct 12" android:padding="4dp"/>
-                    <TextView android:text="Theft" android:textColor="@color/alert_red" android:padding="4dp"/>
+                    <TextView android:text="@string/theft" android:textColor="@color/alert_red" android:padding="4dp"/>
                     <TextView android:text="Bicycle stolen from porch on Elm St." android:padding="4dp"/>
                 </TableRow>
 
@@ -84,7 +85,7 @@
 
                 <TableRow android:padding="8dp">
                     <TextView android:text="Oct 10" android:padding="4dp"/>
-                    <TextView android:text="Suspicious" android:textColor="@color/warning_orange" android:padding="4dp"/>
+                    <TextView android:text="@string/suspicious" android:textColor="@color/warning_orange" android:padding="4dp"/>
                     <TextView android:text="Unrecognized vehicle idling for 2 hours." android:padding="4dp"/>
                 </TableRow>
 
@@ -92,7 +93,7 @@
 
                 <TableRow android:padding="8dp">
                     <TextView android:text="Oct 05" android:padding="4dp"/>
-                    <TextView android:text="Fire" android:textColor="@color/alert_red" android:padding="4dp"/>
+                    <TextView android:text="@string/fire" android:textColor="@color/alert_red" android:padding="4dp"/>
                     <TextView android:text="Small trash fire contained near park." android:padding="4dp"/>
                 </TableRow>
 
