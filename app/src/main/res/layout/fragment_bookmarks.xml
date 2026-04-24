@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="3"
+    android:background="@drawable/bg_card"
+    android:padding="12dp"
+    android:layout_margin="8dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/stats_alerts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/alert_red" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Active Alerts"
+            android:textSize="11sp"
+            android:textAllCaps="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/zone_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Safe"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/safety_blue" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Zone"
+            android:textSize="11sp"
+            android:textAllCaps="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/stats_patrols"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/safety_blue" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Patrols"
+            android:textSize="11sp"
+            android:textAllCaps="true" />
+    </LinearLayout>
+
+</LinearLayout>
