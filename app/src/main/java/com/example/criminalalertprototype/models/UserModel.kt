@@ -4,13 +4,10 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class AlertModel(
-    val id: String,
-    val title: String,
-    val description: String,
-    val type: String,        // "Theft", "Suspicious", "Fire", etc.
-    val timeAgo: String,
-    val urgency: String,     // "Low", "Medium", "High"
-    val location: String,
-    val isVerified: Boolean = false
+data class UserModel(
+    val id: Int = 0,
+    val username: String,
+    val notificationMode: String = "all",
+    val stealthMode: Boolean = false,
+    val lastActive: String = ""
 ) : Parcelable

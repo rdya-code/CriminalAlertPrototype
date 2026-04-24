@@ -28,6 +28,7 @@ class DashboardFragment : Fragment() {
     private lateinit var statsAlerts: TextView
     private lateinit var zoneStatus: TextView
     private lateinit var statsPatrols: TextView
+    private lateinit var tvEmptyState: TextView
     private lateinit var reportRepository: ReportRepository
     private var alertList: List<AlertModel> = emptyList()
     private var userName: String = ""
@@ -59,6 +60,7 @@ class DashboardFragment : Fragment() {
         statsAlerts = view.findViewById(R.id.stats_alerts)
         zoneStatus = view.findViewById(R.id.zone_status)
         statsPatrols = view.findViewById(R.id.stats_patrols)
+        tvEmptyState = view.findViewById(R.id.tv_empty_state)
         
         // Set static values for now
         zoneStatus.text = "Safe"
@@ -109,10 +111,18 @@ class DashboardFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 val reports = reportRepository.getAllActiveReports(userName)
-                updateUIWithReports(reports)
+                
+                if (reports.isNotEmpty()) {
+                    updateUIWithReports(reports)
+                    showRecyclerView()
+                } else {
+                    showEmptyState()
+                }
                 updateActiveAlertsCount()
             } catch (e: Exception) {
+                e.printStackTrace()
                 Toast.makeText(requireContext(), "Error loading alerts: ${e.message}", Toast.LENGTH_SHORT).show()
+                showEmptyState()
             }
         }
     }
@@ -135,9 +145,12 @@ class DashboardFragment : Fragment() {
                             location = report.location
                         )
                     }
-                    adapter.updateData(alertModels)
                     
-                    if (alertModels.isEmpty()) {
+                    if (alertModels.isNotEmpty()) {
+                        adapter.updateData(alertModels)
+                        showRecyclerView()
+                    } else {
+                        showEmptyState()
                         Toast.makeText(requireContext(), "No results found for '$query'", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
@@ -181,6 +194,21 @@ class DashboardFragment : Fragment() {
             "Recently"
         } catch (e: Exception) {
             "Just now"
+        }
+    }
+
+    private fun showEmptyState() {
+        recyclerView.visibility = View.GONE
+        if (::tvEmptyState.isInitialized) {
+            tvEmptyState.visibility = View.VISIBLE
+            tvEmptyState.text = "No active alerts\n\nSubmit a report to see it here"
+        }
+    }
+
+    private fun showRecyclerView() {
+        recyclerView.visibility = View.VISIBLE
+        if (::tvEmptyState.isInitialized) {
+            tvEmptyState.visibility = View.GONE
         }
     }
 

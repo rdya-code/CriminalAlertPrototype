@@ -59,12 +59,20 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(AlertsFragment())
                     true
                 }
-                R.id.nav_community -> {
-                    loadFragment(CommunityFragment())
+                R.id.nav_bookmarks -> {
+                    val bookmarksFragment = BookmarksFragment()
+                    val args = Bundle()
+                    args.putString("USER_NAME", userName)
+                    bookmarksFragment.arguments = args
+                    loadFragment(bookmarksFragment)
                     true
                 }
-                R.id.nav_settings -> {
-                    loadFragment(SettingsFragment())
+                R.id.nav_profile -> {
+                    val profileFragment = ProfileFragment()
+                    val args = Bundle()
+                    args.putString("USER_NAME", userName)
+                    profileFragment.arguments = args
+                    loadFragment(profileFragment)
                     true
                 }
                 else -> false

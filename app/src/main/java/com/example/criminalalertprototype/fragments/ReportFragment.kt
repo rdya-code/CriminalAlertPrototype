@@ -17,6 +17,7 @@ class ReportFragment : Fragment() {
     private lateinit var urgencyGroup: RadioGroup
     private lateinit var descriptionEditText: EditText
     private lateinit var submitButton: Button
+    private lateinit var progressBar: ProgressBar
     private lateinit var reportRepository: ReportRepository
     private var selectedCategory: String = "Theft"
     private var selectedUrgency: String = "Low"
@@ -36,9 +37,17 @@ class ReportFragment : Fragment() {
         userName = arguments?.getString("USER_NAME") ?: "John"
         reportRepository = ReportRepository(requireContext())
         
+        setupViews(view)
         setupCategorySelection(view)
         setupUrgencySelection(view)
         setupSubmitButton(view)
+    }
+
+    private fun setupViews(view: View) {
+        progressBar = view.findViewById(R.id.progress_bar_report)
+        if (progressBar != null) {
+            progressBar.visibility = View.GONE
+        }
     }
 
     private fun setupCategorySelection(view: View) {
@@ -87,7 +96,7 @@ class ReportFragment : Fragment() {
         
         submitButton.setOnClickListener {
             val description = descriptionEditText.text.toString().trim()
-            val location = "Current Location" // You can enhance this later
+            val location = "Current Location"
             
             if (description.isNotBlank()) {
                 saveReportToDatabase(description, location)
@@ -98,6 +107,11 @@ class ReportFragment : Fragment() {
     }
 
     private fun saveReportToDatabase(description: String, location: String) {
+        submitButton.isEnabled = false
+        if (::progressBar.isInitialized) {
+            progressBar.visibility = View.VISIBLE
+        }
+        
         lifecycleScope.launch {
             try {
                 val report = ReportModel(
@@ -121,11 +135,20 @@ class ReportFragment : Fragment() {
                     val bundle = Bundle()
                     bundle.putBoolean("report_submitted", true)
                     parentFragmentManager.setFragmentResult("report_submitted", bundle)
+                    
+                    // Navigate back to Dashboard
+                    parentFragmentManager.popBackStack()
                 } else {
                     Toast.makeText(context, "Failed to submit report", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                e.printStackTrace()
+            } finally {
+                submitButton.isEnabled = true
+                if (::progressBar.isInitialized) {
+                    progressBar.visibility = View.GONE
+                }
             }
         }
     }

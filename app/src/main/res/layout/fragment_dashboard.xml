@@ -24,6 +24,17 @@
         android:textStyle="bold"
         android:layout_marginBottom="8dp" />
 
+    <!-- Empty State TextView - Shows when no alerts -->
+    <TextView
+        android:id="@+id/tv_empty_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="No active alerts\n\nSubmit a report to see it here"
+        android:textAlignment="center"
+        android:textColor="@color/text_secondary"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_alerts"
         android:layout_width="match_parent"
