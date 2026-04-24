@@ -10,7 +10,7 @@ import com.example.criminalalertprototype.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-
+    
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var tvWelcome: TextView
     private var userName: String = ""
@@ -18,14 +18,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_container)
-
-        // F1: Receive data from Intent Extras
+        
         userName = intent.getStringExtra("USER_NAME") ?: "User"
-
+        
         setupViews()
         setupNavigation()
-
-        // Load default fragment (Dashboard)
+        
+        // Listen for report submissions to refresh Dashboard
+        supportFragmentManager.setFragmentResultListener("report_submitted", this) { _, _ ->
+            refreshDashboard()
+        }
+        
         if (savedInstanceState == null) {
             loadFragment(DashboardFragment())
         }
@@ -38,7 +41,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNavigation() {
-        // F4: Fragment Transactions - Switch between fragments without restarting activity
         bottomNav.setOnNavigationItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.nav_dashboard -> {
@@ -46,7 +48,11 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_report -> {
-                    loadFragment(ReportFragment())
+                    val reportFragment = ReportFragment()
+                    val args = Bundle()
+                    args.putString("USER_NAME", userName)
+                    reportFragment.arguments = args
+                    loadFragment(reportFragment)
                     true
                 }
                 R.id.nav_alerts -> {
@@ -70,5 +76,18 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
+    }
+    
+    private fun refreshDashboard() {
+        val dashboardFragment = DashboardFragment()
+        val args = Bundle()
+        args.putString("USER_NAME", userName)
+        dashboardFragment.arguments = args
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, dashboardFragment)
+            .commit()
+        
+        // Reset bottom nav selection
+        bottomNav.selectedItemId = R.id.nav_dashboard
     }
 }

@@ -8,31 +8,34 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.criminalalertprototype.R
-import com.example.criminalalertprototype.models.AlertModel
+import com.example.criminalalertprototype.database.ReportRepository
+import com.example.criminalalertprototype.models.ReportModel
+import kotlinx.coroutines.launch
 
 class CommunityDetailFragment : Fragment() {
 
     companion object {
-        private const val ARG_ALERT = "alert_data"
-
-        // F2: Bundle - Pass custom object from RecyclerView to Detail Fragment
-        fun newInstance(alert: AlertModel): CommunityDetailFragment {
+        private const val ARG_REPORT = "report_data"
+        
+        fun newInstance(report: ReportModel): CommunityDetailFragment {
             val fragment = CommunityDetailFragment()
             val args = Bundle()
-            args.putParcelable(ARG_ALERT, alert)
+            args.putParcelable(ARG_REPORT, report)
             fragment.arguments = args
             return fragment
         }
     }
 
-    private lateinit var alert: AlertModel
+    private lateinit var report: ReportModel
+    private lateinit var reportRepository: ReportRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // F2: Receive data via Bundle
-        alert = arguments?.getParcelable(ARG_ALERT)
-            ?: throw IllegalArgumentException("Alert data required")
+        report = arguments?.getParcelable(ARG_REPORT) 
+            ?: throw IllegalArgumentException("Report data required")
+        reportRepository = ReportRepository(requireContext())
     }
 
     override fun onCreateView(
@@ -45,29 +48,63 @@ class CommunityDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
+        displayReportDetails(view)
+        setupButtons(view)
+    }
 
-        view.findViewById<TextView>(R.id.detail_title).text = alert.title
-        view.findViewById<TextView>(R.id.detail_description).text = alert.description
-        view.findViewById<TextView>(R.id.detail_type).text = alert.type
-        view.findViewById<TextView>(R.id.detail_time).text = alert.timeAgo
-        view.findViewById<TextView>(R.id.detail_location).text = alert.location
-        view.findViewById<TextView>(R.id.detail_urgency).text = "Urgency: ${alert.urgency}"
-
+    private fun displayReportDetails(view: View) {
+        view.findViewById<TextView>(R.id.detail_title).text = report.title
+        view.findViewById<TextView>(R.id.detail_description).text = report.description
+        view.findViewById<TextView>(R.id.detail_type).text = report.category
+        view.findViewById<TextView>(R.id.detail_location).text = report.location
+        view.findViewById<TextView>(R.id.detail_urgency).text = "Urgency: ${report.urgency}"
+        
         // Set urgency color
-        when (alert.urgency) {
-            "High" -> view.findViewById<TextView>(R.id.detail_urgency).setTextColor(resources.getColor(R.color.alert_red))
-            "Medium" -> view.findViewById<TextView>(R.id.detail_urgency).setTextColor(resources.getColor(R.color.warning_orange))
-            else -> view.findViewById<TextView>(R.id.detail_urgency).setTextColor(resources.getColor(R.color.safety_blue))
+        val urgencyText = view.findViewById<TextView>(R.id.detail_urgency)
+        when (report.urgency) {
+            "High" -> urgencyText.setTextColor(resources.getColor(R.color.alert_red))
+            "Medium" -> urgencyText.setTextColor(resources.getColor(R.color.warning_orange))
+            else -> urgencyText.setTextColor(resources.getColor(R.color.safety_blue))
         }
+        
+        // Show time if available
+        if (report.createdAt.isNotEmpty()) {
+            view.findViewById<TextView>(R.id.detail_time).text = report.createdAt
+        } else {
+            view.findViewById<TextView>(R.id.detail_time).visibility = View.GONE
+        }
+    }
 
+    private fun setupButtons(view: View) {
         view.findViewById<Button>(R.id.btn_confirm).setOnClickListener {
-            Toast.makeText(context, "You confirmed this alert", Toast.LENGTH_SHORT).show()
-            parentFragmentManager.popBackStack()
+            updateReportStatus("confirmed")
         }
-
+        
         view.findViewById<Button>(R.id.btn_dismiss).setOnClickListener {
-            Toast.makeText(context, "You dismissed this alert", Toast.LENGTH_SHORT).show()
-            parentFragmentManager.popBackStack()
+            updateReportStatus("dismissed")
+        }
+    }
+
+    private fun updateReportStatus(newStatus: String) {
+        lifecycleScope.launch {
+            try {
+                val result = reportRepository.updateReportStatus(report.id, newStatus)
+                
+                if (result > 0) {
+                    val message = if (newStatus == "confirmed") {
+                        "Alert confirmed! Thanks for your feedback."
+                    } else {
+                        "Alert dismissed."
+                    }
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                    parentFragmentManager.popBackStack()
+                } else {
+                    Toast.makeText(context, "Failed to update status", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

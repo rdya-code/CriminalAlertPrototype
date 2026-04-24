@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/setting_row_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
@@ -22,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/setting_icon"
         android:layout_marginStart="16dp"
-        android:text="Stealth Alert Mode"
+        android:text="@string/stealth_alert_mode"
         android:textStyle="bold"
         android:textColor="@color/text_primary" />
 
@@ -32,10 +33,11 @@
         android:layout_below="@id/setting_label"
         android:layout_toEndOf="@id/setting_icon"
         android:layout_marginStart="16dp"
-        android:text="Vibrate only for high-priority alerts"
+        android:text="@string/stealth_description"
         android:textSize="12sp" />
 
     <Switch
+        android:id="@+id/stealth_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="48dp"
@@ -44,4 +46,5 @@
         android:layout_centerVertical="true"
         android:checked="true"
         android:contentDescription="Toggle stealth mode" />
+
 </RelativeLayout>

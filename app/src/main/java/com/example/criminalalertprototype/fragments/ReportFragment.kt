@@ -6,17 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.criminalalertprototype.R
-import com.example.criminalalertprototype.models.AlertModel
-import java.util.UUID
+import com.example.criminalalertprototype.database.ReportRepository
+import com.example.criminalalertprototype.models.ReportModel
+import kotlinx.coroutines.launch
 
 class ReportFragment : Fragment() {
 
     private lateinit var urgencyGroup: RadioGroup
     private lateinit var descriptionEditText: EditText
     private lateinit var submitButton: Button
+    private lateinit var reportRepository: ReportRepository
     private var selectedCategory: String = "Theft"
     private var selectedUrgency: String = "Low"
+    private var userName: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +32,10 @@ class ReportFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        
+        userName = arguments?.getString("USER_NAME") ?: "John"
+        reportRepository = ReportRepository(requireContext())
+        
         setupCategorySelection(view)
         setupUrgencySelection(view)
         setupSubmitButton(view)
@@ -40,20 +47,20 @@ class ReportFragment : Fragment() {
         val fireBtn = view.findViewById<Button>(R.id.btn_fire)
         val suspiciousBtn = view.findViewById<Button>(R.id.btn_suspicious)
         val emergencyBtn = view.findViewById<Button>(R.id.btn_emergency)
-
-        theftBtn?.setOnClickListener {
+        
+        theftBtn?.setOnClickListener { 
             selectedCategory = "Theft"
             Toast.makeText(context, "Category: Theft", Toast.LENGTH_SHORT).show()
         }
-        vandalismBtn?.setOnClickListener {
+        vandalismBtn?.setOnClickListener { 
             selectedCategory = "Vandalism"
             Toast.makeText(context, "Category: Vandalism", Toast.LENGTH_SHORT).show()
         }
-        fireBtn?.setOnClickListener {
+        fireBtn?.setOnClickListener { 
             selectedCategory = "Fire"
             Toast.makeText(context, "Category: Fire", Toast.LENGTH_SHORT).show()
         }
-        suspiciousBtn?.setOnClickListener {
+        suspiciousBtn?.setOnClickListener { 
             selectedCategory = "Suspicious"
             Toast.makeText(context, "Category: Suspicious Activity", Toast.LENGTH_SHORT).show()
         }
@@ -77,29 +84,48 @@ class ReportFragment : Fragment() {
     private fun setupSubmitButton(view: View) {
         descriptionEditText = view.findViewById(R.id.et_description)
         submitButton = view.findViewById(R.id.btn_submit_report)
-
+        
         submitButton.setOnClickListener {
-            val description = descriptionEditText.text.toString()
+            val description = descriptionEditText.text.toString().trim()
+            val location = "Current Location" // You can enhance this later
+            
             if (description.isNotBlank()) {
-                val newAlert = AlertModel(
-                    id = UUID.randomUUID().toString(),
-                    title = selectedCategory,
-                    description = description,
-                    type = selectedCategory,
-                    timeAgo = "Just now",
-                    urgency = selectedUrgency,
-                    location = "Current Location"
-                )
-
-                // Pass data back via Bundle
-                val result = Bundle()
-                result.putParcelable("new_alert", newAlert)
-                parentFragmentManager.setFragmentResult("new_alert_request", result)
-
-                Toast.makeText(context, "Report submitted successfully!", Toast.LENGTH_SHORT).show()
-                descriptionEditText.text.clear()
+                saveReportToDatabase(description, location)
             } else {
                 Toast.makeText(context, "Please enter a description", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun saveReportToDatabase(description: String, location: String) {
+        lifecycleScope.launch {
+            try {
+                val report = ReportModel(
+                    id = 0,
+                    title = selectedCategory,
+                    description = description,
+                    category = selectedCategory,
+                    urgency = selectedUrgency,
+                    location = location,
+                    status = "active",
+                    userName = userName
+                )
+                
+                val result = reportRepository.insertReport(report)
+                
+                if (result != -1L) {
+                    Toast.makeText(context, "Report submitted successfully!", Toast.LENGTH_SHORT).show()
+                    descriptionEditText.text.clear()
+                    
+                    // Send result back to Dashboard
+                    val bundle = Bundle()
+                    bundle.putBoolean("report_submitted", true)
+                    parentFragmentManager.setFragmentResult("report_submitted", bundle)
+                } else {
+                    Toast.makeText(context, "Failed to submit report", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
