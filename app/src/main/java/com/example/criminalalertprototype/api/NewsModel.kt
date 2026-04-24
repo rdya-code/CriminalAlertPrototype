@@ -1,18 +1,25 @@
-package com.example.criminalalertprototype.fragments
+package com.example.criminalalertprototype.api
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.example.criminalalertprototype.R
+import com.google.gson.annotations.SerializedName
 
-class CommunityFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_community, container, false)
-    }
-}
+// Data classes for NewsAPI response
+data class NewsResponse(
+    @SerializedName("status") val status: String,
+    @SerializedName("totalResults") val totalResults: Int,
+    @SerializedName("articles") val articles: List<Article>
+)
+
+data class Article(
+    @SerializedName("source") val source: Source,
+    @SerializedName("author") val author: String?,
+    @SerializedName("title") val title: String,
+    @SerializedName("description") val description: String?,
+    @SerializedName("url") val url: String,
+    @SerializedName("urlToImage") val urlToImage: String?,
+    @SerializedName("publishedAt") val publishedAt: String
+)
+
+data class Source(
+    @SerializedName("id") val id: String?,
+    @SerializedName("name") val name: String
+)

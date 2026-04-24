@@ -16,7 +16,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Tap on any alert from Dashboard to view details and comment"
+        android:text="Tap on any alert from Dashboard to view details, confirm, or dismiss"
         android:textColor="@color/text_secondary" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Coming soon: User comments and discussion features"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        android:gravity="center" />
 
 </LinearLayout>

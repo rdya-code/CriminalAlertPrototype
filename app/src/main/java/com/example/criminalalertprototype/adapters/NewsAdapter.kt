@@ -3,78 +3,52 @@ package com.example.criminalalertprototype.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.criminalalertprototype.R
-import com.example.criminalalertprototype.models.AlertModel
+import com.example.criminalalertprototype.api.Article
 
-class AlertAdapter(
-    private var alertList: List<AlertModel>,
-    private val onItemClick: (AlertModel) -> Unit
-) : RecyclerView.Adapter<AlertAdapter.AlertViewHolder>() {
+class NewsAdapter(
+    private var newsList: List<Article>
+) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
-    private var filteredList: List<AlertModel> = alertList
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlertViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_incident_card, parent, false)
-        return AlertViewHolder(view)
+            .inflate(R.layout.item_news, parent, false)
+        return NewsViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: AlertViewHolder, position: Int) {
-        val alert = filteredList[position]
-        holder.bind(alert)
-        holder.itemView.setOnClickListener { onItemClick(alert) }
+    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
+        val article = newsList[position]
+        holder.bind(article)
     }
 
-    override fun getItemCount(): Int = filteredList.size
+    override fun getItemCount(): Int = newsList.size
 
-    // F5: Search/Filter function
-    fun filter(query: String) {
-        filteredList = if (query.isEmpty()) {
-            alertList
-        } else {
-            alertList.filter {
-                it.title.contains(query, ignoreCase = true) ||
-                        it.type.contains(query, ignoreCase = true) ||
-                        it.location.contains(query, ignoreCase = true)
-            }
+    fun updateData(newList: List<Article>) {
+        newsList = newList
+        notifyDataSetChanged()
+    }
+
+    class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val tvTitle: TextView = itemView.findViewById(R.id.tv_news_title)
+        private val tvDescription: TextView = itemView.findViewById(R.id.tv_news_description)
+        private val tvSource: TextView = itemView.findViewById(R.id.tv_news_source)
+        private val tvTime: TextView = itemView.findViewById(R.id.tv_news_time)
+
+        fun bind(article: Article) {
+            tvTitle.text = article.title
+            tvDescription.text = article.description ?: "No description available"
+            tvSource.text = article.source.name
+            tvTime.text = formatDate(article.publishedAt)
         }
-        notifyDataSetChanged()
-    }
 
-    fun updateData(newList: List<AlertModel>) {
-        alertList = newList
-        filteredList = newList
-        notifyDataSetChanged()
-    }
-
-    // ViewHolder pattern
-    class AlertViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val iconType: ImageView = itemView.findViewById(R.id.icon_type)
-        private val lblTitle: TextView = itemView.findViewById(R.id.lbl_title)
-        private val lblTime: TextView = itemView.findViewById(R.id.lbl_time)
-        private val lblDesc: TextView = itemView.findViewById(R.id.lbl_desc)
-
-        fun bind(alert: AlertModel) {
-            lblTitle.text = alert.title
-            lblDesc.text = alert.description
-            lblTime.text = alert.timeAgo
-
-            // Set icon based on type
-            when (alert.type.lowercase()) {
-                "theft" -> iconType.setImageResource(R.drawable.ic_theft_custom)
-                "suspicious" -> iconType.setImageResource(R.drawable.ic_suspicious_custom)
-                "fire" -> iconType.setImageResource(R.drawable.ic_fire_custom)
-                else -> iconType.setImageResource(R.drawable.ic_alert_custom)
-            }
-
-            // Set urgency color
-            when (alert.urgency) {
-                "High" -> iconType.setColorFilter(itemView.context.getColor(R.color.alert_red))
-                "Medium" -> iconType.setColorFilter(itemView.context.getColor(R.color.warning_orange))
-                else -> iconType.setColorFilter(itemView.context.getColor(R.color.safety_blue))
+        private fun formatDate(dateString: String): String {
+            return try {
+                // Simple formatting - just show the date part
+                dateString.substring(0, 10)
+            } catch (e: Exception) {
+                "Recent"
             }
         }
     }

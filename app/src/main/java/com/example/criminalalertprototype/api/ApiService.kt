@@ -1,18 +1,14 @@
-package com.example.criminalalertprototype.fragments
+package com.example.criminalalertprototype.api
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.example.criminalalertprototype.R
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-class CommunityFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_community, container, false)
-    }
+interface ApiService {
+    @GET("v2/everything")
+    suspend fun getCrimeNews(
+        @Query("q") query: String,
+        @Query("apiKey") apiKey: String,
+        @Query("language") language: String = "en",
+        @Query("pageSize") pageSize: Int = 20
+    ): NewsResponse
 }
